@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "61708736320",
+    "project_id": "medicine-67002",
+    "storage_bucket": "medicine-67002.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61708736320:android:17a8f0622f6070febe0ca5",
+        "android_client_info": {
+          "package_name": "com.example.medicines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61708736320-1pifnfkr8hee2qulqvo3jgfqi4sejijs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfYgsIaMNbwOvSz8EzP0Jsbyrpg3z_hws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61708736320-1pifnfkr8hee2qulqvo3jgfqi4sejijs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
