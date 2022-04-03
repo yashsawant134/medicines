@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicines/models/category_model.dart';
 import 'package:medicines/models/search_medicine.dart';
 import 'package:medicines/modules/search_medicines_layout.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:medicines/screens/cart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,10 +14,18 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
- var productList=[];
- var newList=[];
- 
- var docidList=[];
+
+var productList = [];
+var newList = [];
+
+var docidList = [];
+String searchWord = "";
+
+TextEditingController searchController = new TextEditingController();
+changeSearchWord(String val) {
+  searchWord = val;
+}
+
 class _HomeScreenState extends State<HomeScreen> {
   int current = 0;
   void changeCurrent(int n) {
@@ -29,7 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-newList.clear();
+    newList.clear();
+    
     return Scaffold(
         body: Container(
             width: MediaQuery.of(context).size.width,
@@ -60,12 +70,46 @@ newList.clear();
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Flexible(
-                                flex: 1,
-                                child: RoundedSearchInput(
-                                  hintText: "Search",
-                                  textController: TextEditingController(),
-                                ),
-                              ),
+                                  flex: 1,
+                                  child: TextField(
+                                    controller: searchController,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        changeSearchWord(value);
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                        prefixIcon: Icon(
+                                          Icons.search,
+                                          color: Color(0xFF69BCFC),
+                                          size: 30,
+                                        ),
+                                        filled: true,
+                                        fillColor:
+                                            Color(0xFF69BCFC).withOpacity(0.07),
+                                        hintText: "Search",
+                                        hintStyle: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w300),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 14.0,
+                                                horizontal: 20.0),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0)),
+                                          borderSide: const BorderSide(
+                                              color: Color(0xFF69BCFC),
+                                              width: 0.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0)),
+                                          borderSide: const BorderSide(
+                                              color: Color(0xFF69BCFC),
+                                              width: 1.0),
+                                        )),
+                                  )),
                               SizedBox(
                                 width: 7,
                               ),
@@ -92,92 +136,139 @@ newList.clear();
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 23, left: 20),
-                        child: Row(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Categories",
-                                  style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24),
-                                )
-                              ],
-                            ),
-                          ],
+                      Visibility(
+                        visible: searchWord.length == 0,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 23, left: 20),
+                          child: Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "Categories",
+                                    style: GoogleFonts.lato(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        height: 43,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            physics: ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: categoriesList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return CategoriesList(
-                                index: index,
-                                isSelected: current == index,
-                                changeCurrent: changeCurrent,
-                              );
-                            }),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(top: 30, left: 17, right: 17),
-                          // child: GridView.builder(
-                          //     physics: NeverScrollableScrollPhysics(),
-                          //     shrinkWrap: true,
-                          //     itemCount: medicineData.length,
-                          //     gridDelegate:
-                          //         const SliverGridDelegateWithFixedCrossAxisCount(
-                          //             mainAxisExtent: 204,
-                          //             crossAxisCount: 2,
-                          //             crossAxisSpacing: 10,
-                          //             mainAxisSpacing: 10),
-                          //     itemBuilder: (BuildContext context, int index) {
-                          //       return SearchMedicineLayout(
-                          //         index: index,
-                          //       );
-                          //     })
-
-                          child: StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance.collection("products").snapshots(),
-                            builder: (context,productsnapshot){
-                              if(productsnapshot.connectionState==ConnectionState.waiting){
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }else{
-                                 productList=productsnapshot.data!.docs;
-                                 int j=0;
-                                 for(int i=0;i<productList.length;i++){
-                                   if(productList[i]['medicine_type']==categoriesList[current].name){
-                                      newList.insert(j, productList[i]);
-                                      docidList.insert(j, productsnapshot.data!.docs[i].id);
-
-                                   }
-                                 }
-                                return  GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                      Visibility(
+                        visible: searchWord.length == 0,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 20),
+                          height: 43,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: ClampingScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: newList.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisExtent: 204,
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10),
+                              itemCount: 3,
                               itemBuilder: (BuildContext context, int index) {
-                                return SearchMedicineLayout(
+                                return CategoriesList(
                                   index: index,
+                                  isSelected: current == index,
+                                  changeCurrent: changeCurrent,
                                 );
-                              });
-                              }
-                            })
-                              )
+                              }),
+                        ),
+                      ),
+                      Visibility(
+                        visible: searchWord.length == 0,
+                        child: Container(
+                            margin:
+                                EdgeInsets.only(top: 30, left: 17, right: 17),
+                            child: StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection("products")
+                                    .snapshots(),
+                                builder: (context, productsnapshot) {
+                                  if (productsnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    productList = productsnapshot.data!.docs;
+                                    int j = 0;
+                                    for (int i = 0;
+                                        i < productList.length;
+                                        i++) {
+                                      if (productList[i]['Medicine_type'] ==
+                                          categoriesList[current].name) {
+                                        newList.insert(j, productList[i]);
+                                        docidList.insert(j,
+                                            productsnapshot.data!.docs[i].id);
+                                      }
+                                    }
+                                    return GridView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: newList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                mainAxisExtent: 204,
+                                                crossAxisCount: 2,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return SearchMedicineLayout(
+                                            index: index,
+                                          );
+                                        });
+                                  }
+                                })),
+                      ),
+                      Visibility(
+                        visible: searchWord.length > 0,
+                        child: Container(
+                            margin:
+                                EdgeInsets.only(top: 30, left: 17, right: 17),
+                            child: StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection("products")
+                                    .snapshots(),
+                                builder: (context, productsnapshot) {
+                                  if (productsnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    productList = productsnapshot.data!.docs;
+                                    int j = 0;
+                                   
+                                    for (int i = 0;i < productList.length;i++) {
+                                      
+
+                                     if (productList[i]['Name'].substring(0,searchWord.length).toLowerCase()==searchWord.toLowerCase()){
+                                        newList.insert(j, productList[i]);
+                                      }
+                                    }
+                                    return newList.length>0?GridView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: newList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                mainAxisExtent: 204,
+                                                crossAxisCount: 2,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return SearchMedicineLayout(
+                                            index: index,
+                                          );
+                                        }):Center(
+                                          child: Text("No Result Found :_("),
+                                        );
+                                  }
+                                })),
+                      )
                     ],
                   ),
                 ),
@@ -263,46 +354,6 @@ class _CategoriesListState extends State<CategoriesList> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// searchbar
-class RoundedSearchInput extends StatelessWidget {
-  final TextEditingController textController;
-  final String hintText;
-  const RoundedSearchInput(
-      {required this.textController, required this.hintText, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: textController,
-      onChanged: (value) {
-        //Do something wi
-      },
-      decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.search,
-            color: Color(0xFF69BCFC),
-            size: 30,
-          ),
-          filled: true,
-          fillColor: Color(0xFF69BCFC).withOpacity(0.07),
-          hintText: hintText,
-          hintStyle:
-              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w300),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            borderSide: const BorderSide(color: Color(0xFF69BCFC), width: 0.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            borderSide: const BorderSide(color: Color(0xFF69BCFC), width: 1.0),
-          )),
     );
   }
 }

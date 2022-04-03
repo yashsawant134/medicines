@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicines/screens/registration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'OtpVerificationScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController number_controller = new TextEditingController();
-  String phone="";
+  String phone = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,42 +122,67 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 40,
                     ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          phone=number_controller.text;
-                          _verifyPhone();
-                        });
-                        
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 9,
-                              color: Color(0Xff69bcfc).withOpacity(0.5),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFF82C6FB), Color(0XFF69BCFC)],
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Log In",
-                              style: GoogleFonts.lato(
+                    // InkWell(
+                    //   onTap: () {
+                    // setState(() {
+                    //   phone = number_controller.text;
+                    //   checkIfDocExists(phone, context);
+                    // });
+                    //   },
+                    //   child: Container(
+                    //     width: MediaQuery.of(context).size.width,
+                    //     height: 60,
+                    //     decoration: BoxDecoration(
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           blurRadius: 9,
+                    //           color: Color(0Xff69bcfc).withOpacity(0.5),
+                    //         ),
+                    //       ],
+                    //       borderRadius: BorderRadius.all(Radius.circular(20)),
+                        //   gradient: LinearGradient(
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight,
+                        //     colors: [Color(0xFF82C6FB), Color(0XFF69BCFC)],
+                        //   ),
+                        // ),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         Text(
+                    //           "Log In",
+                            //   style: GoogleFonts.lato(
+                            //       color: Colors.white,
+                            //       fontSize: 21,
+                            //       fontWeight: FontWeight.bold),
+                            // )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            phone = number_controller.text;
+                            checkIfDocExists(phone, context);
+                          });
+                        },
+                        child: Text("Log In",style: GoogleFonts.lato(
                                   color: Colors.white,
                                   fontSize: 21,
                                   fontWeight: FontWeight.bold),
-                            )
-                          ],
+                            ),
+                        style: ElevatedButton.styleFrom(
+                          primary:Color(0xFF82C6FB), 
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          elevation: 9.0,
+                          
                         ),
                       ),
                     ),
@@ -202,39 +228,69 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   _verifyPhone() async {
-   
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: "+91" + phone,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-         
-        },
+        verificationCompleted: (PhoneAuthCredential credential) async {},
         verificationFailed: (FirebaseAuthException e) {
- Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
+          Fluttertoast.showToast(
+            msg: e.message.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OtpVerificationScreen(
+                        number_controller.text, verificationId)));
+          }
+          ;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          setState(() {});
+        },
+        timeout: Duration(seconds: 60));
+  }
+
+  void checkIfDocExists(String docId, BuildContext context) async {
+    try {
+      // Get reference to Firestore collection
+      var collectionRef = FirebaseFirestore.instance.collection('users');
+
+      var doc = await collectionRef.doc(docId).get();
+      if (doc.exists) {
+        _verifyPhone();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('phone_number', docId);
+      } else {
+        Fluttertoast.showToast(
+          msg: "This phone number is not registered",
+          toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
+          backgroundColor: Color(0Xff69bcfc),
           textColor: Colors.white,
           fontSize: 16.0,
         );
-        },
-        
-        codeSent: (String verificationId, int? resendToken) {
-        {
-
-            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OtpVerificationScreen(
-                                    number_controller.text,verificationId)));
-          };
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-          });
-        },
-        timeout: Duration(seconds: 60));
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color(0Xff69bcfc),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 }

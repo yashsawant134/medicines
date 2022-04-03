@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medicines/screens/Categories.dart';
+import 'package:medicines/screens/FavouritesScreen.dart';
+import 'package:medicines/screens/ProfileScreen.dart';
 import 'package:medicines/screens/cart.dart';
 import 'package:medicines/screens/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -8,16 +13,17 @@ class BottomNavBar extends StatefulWidget {
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
-
+String phone ="";
 class _BottomNavBarState extends State<BottomNavBar> {
   int pageIndex = 0;
 
   final ScreenPages = [
     const HomeScreen(),
-    const HomeScreen(),
-    const HomeScreen(),
-    const HomeScreen(),
+    const CategoriesScreen(),
+     FavouriteScreen(),
+    const ProfileScreen(),
   ];
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,11 +35,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
             padding: const EdgeInsets.only(right: 16, top: 15),
             child: IconButton(
               onPressed: () {
-                 Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddToCart()),
-                          );
+                 getPhonenumber();
+              
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddToCart(
+                            phoneNumber: phone,
+                          )),
+                );
               },
               icon: Image.asset(
                 "assets/png/shopping_cart.png",
@@ -54,7 +64,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
       ),
       body: ScreenPages[pageIndex],
-
       bottomNavigationBar: Container(
         height: 60,
         decoration: BoxDecoration(
@@ -81,7 +90,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 });
               },
               icon: pageIndex == 0
-                  ? new Image.asset("assets/png/homepage_fill.png",color: Color(0Xff69bcfc),)
+                  ? new Image.asset(
+                      "assets/png/homepage_fill.png",
+                      color: Color(0Xff69bcfc),
+                    )
                   : new Image.asset("assets/png/homepage.png"),
             ),
             IconButton(
@@ -129,4 +141,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
     );
   }
+}
+
+getPhonenumber() async {
+    
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? phone_number = prefs.getString('phone_number');
+
+                phone=phone_number!;
 }
