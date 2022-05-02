@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicines/models/category_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medicines/screens/CategoryDetails.dart';
 
 
 class CategoriesScreen extends StatefulWidget {
@@ -31,8 +32,18 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     crossAxisSpacing: 2,
                     mainAxisSpacing: 15),
                 itemBuilder: (BuildContext context, int index) {
-                  return CategoryScreenLayout(
-                    index: index,
+                  return 
+                  InkWell(
+                    onTap: (){
+                     Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      CategoryDetailsDart(category: categoriesList[index].name!,)));
+                    },
+                    child: CategoryScreenLayout(
+                      index: index,
+                    ),
                   );
                 }),
           ),

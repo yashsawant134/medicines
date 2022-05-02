@@ -269,6 +269,8 @@ void checkIfDocExists(String docId, BuildContext context) async {
         'name': nameController.text,
         'email': emailController.text,
         'phone': phoneController.text.toString(),
+        'address':"",
+        'postalcode':""
       });
       Fluttertoast.showToast(
         msg: "Registered Sussessfull",

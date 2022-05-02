@@ -1,10 +1,13 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:medicines/models/search_medicine.dart';
+import 'package:medicines/screens/AddAddress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class AddToCart extends StatefulWidget {
   String? phoneNumber;
@@ -14,12 +17,22 @@ class AddToCart extends StatefulWidget {
   State<AddToCart> createState() => _AddToCartState();
 }
 
+num p_price = 0;
 var checkoutList = [];
 var productList = [];
+var productImgL = [];
+String? phone_no = "";
+late Razorpay _razorpay;
 
+ var options = {
+    'key': 'rzp_test_zATQhierdFJPMP',
+    'amount': 100,
+    'name': 'Drug Store',
+    'description': 'Medicines',
+    'prefill': {'contact': phone_no, 'email': 'test@razorpay.com'}
+  };
 // SharedPreferences prefs = await SharedPreferences.getInstance();
 //    String phone_number=  prefs.setString('phone_number', docId);
-
 class _AddToCartState extends State<AddToCart> {
   @override
   Widget build(BuildContext context) {
@@ -128,8 +141,8 @@ class _AddToCartState extends State<AddToCart> {
                                                         Colors.transparent,
                                                     foregroundColor:
                                                         Colors.black,
-                                                    icon: Icons.archive,
-                                                    label: 'Archive',
+                                                    icon: Icons.shopping_bag_rounded,
+                                                    label: 'Add',
                                                   ),
                                                 ],
                                               ),
@@ -235,33 +248,39 @@ class _AddToCartState extends State<AddToCart> {
                                                               ),
                                                               Row(
                                                                 children: [
-                                                                  Container(
-                                                                    width: 30,
-                                                                    height: 30,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Color(
-                                                                          0xFF82C6FB),
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                            color: Color(0Xff69bcfc).withOpacity(
-                                                                                0.5),
-                                                                            blurRadius:
-                                                                                9,
-                                                                            spreadRadius:
-                                                                                2),
-                                                                      ],
-                                                                    ),
-                                                                    child:
-                                                                        Center(
+                                                                  InkWell(
+                                                                    onTap: (() {
+                                                                       int q=productList[index]['qty']>=2?productList[index]['qty']-1:productList[index]['qty'];
+                                                                      FirebaseFirestore.instance.collection("users").doc(widget.phoneNumber).collection("cart").doc(productList[index].id).update({'qty':q});
+                                                                    }),
+                                                                    child: Container(
+                                                                      width: 30,
+                                                                      height: 30,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: Color(
+                                                                            0xFF82C6FB),
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                              color: Color(0Xff69bcfc).withOpacity(
+                                                                                  0.5),
+                                                                              blurRadius:
+                                                                                  9,
+                                                                              spreadRadius:
+                                                                                  2),
+                                                                        ],
+                                                                      ),
                                                                       child:
-                                                                          new Icon(
-                                                                        Icons
-                                                                            .remove,
-                                                                        color: Colors
-                                                                            .white,
+                                                                          Center(
+                                                                        child:
+                                                                            new Icon(
+                                                                          Icons
+                                                                              .remove,
+                                                                          color: Colors
+                                                                              .white,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -284,33 +303,39 @@ class _AddToCartState extends State<AddToCart> {
                                                                   SizedBox(
                                                                     width: 12,
                                                                   ),
-                                                                  Container(
-                                                                    width: 30,
-                                                                    height: 30,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Color(
-                                                                          0xFF82C6FB),
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                            color: Color(0Xff69bcfc).withOpacity(
-                                                                                0.5),
-                                                                            blurRadius:
-                                                                                9,
-                                                                            spreadRadius:
-                                                                                2),
-                                                                      ],
-                                                                    ),
-                                                                    child:
-                                                                        Center(
+                                                                  InkWell(
+                                                                    onTap: (){
+                                                                      int q=productList[index]['qty']<10?productList[index]['qty']+1:productList[index]['qty'];
+                                                                      FirebaseFirestore.instance.collection("users").doc(widget.phoneNumber).collection("cart").doc(productList[index].id).update({'qty':q});
+                                                                    },
+                                                                    child: Container(
+                                                                      width: 30,
+                                                                      height: 30,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: Color(
+                                                                            0xFF82C6FB),
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                              color: Color(0Xff69bcfc).withOpacity(
+                                                                                  0.5),
+                                                                              blurRadius:
+                                                                                  9,
+                                                                              spreadRadius:
+                                                                                  2),
+                                                                        ],
+                                                                      ),
                                                                       child:
-                                                                          new Icon(
-                                                                        Icons
-                                                                            .add,
-                                                                        color: Colors
-                                                                            .white,
+                                                                          Center(
+                                                                        child:
+                                                                            new Icon(
+                                                                          Icons
+                                                                              .add,
+                                                                          color: Colors
+                                                                              .white,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -318,9 +343,8 @@ class _AddToCartState extends State<AddToCart> {
                                                                     width: 16,
                                                                   ),
                                                                   Text(
-                                                                    productList[index]
-                                                                            [
-                                                                            'price']
+                                                                    (productList[index]['qty'] *
+                                                                            productList[index]['price'])
                                                                         .toString(),
                                                                     style: GoogleFonts.lato(
                                                                         color: Color(
@@ -375,44 +399,289 @@ class _AddToCartState extends State<AddToCart> {
               ),
             )
           ])),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        width: MediaQuery.of(context).size.width,
-        height: 60,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 9,
-              color: Color(0Xff69bcfc).withOpacity(0.5),
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          if (checkoutList.length > 0) bottomPaymentSheet();
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+          width: MediaQuery.of(context).size.width,
+          height: 60,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 9,
+                color: Color(0Xff69bcfc).withOpacity(0.5),
+              ),
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF82C6FB), Color(0XFF69BCFC)],
             ),
-          ],
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF82C6FB), Color(0XFF69BCFC)],
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Checkout",
-              style: GoogleFonts.lato(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold),
-            )
-          ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Checkout",
+                style: GoogleFonts.lato(
+                    color: Colors.white,
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    getPhonenum();
+    _razorpay = Razorpay();
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+ 
+//Waf5ymDyF6CqpEltwkSa2ycw
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(phone_no)
+        .collection("history")
+        .doc()
+        .set({
+      'date': "",
+      'orderid': response.paymentId,
+      'status': true,
+      'totalPayment': (p_price - 0.2 * p_price).toString()
+    });
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    // Fluttertoast.showToast(
+    //   msg: response.toString(),
+    //   toastLength: Toast.LENGTH_LONG,
+    //   gravity: ToastGravity.CENTER,
+    //   timeInSecForIosWeb: 1,
+    //   backgroundColor: Color(0Xff69bcfc),
+    //   textColor: Colors.white,
+    //   fontSize: 16.0,
+    // );
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(phone_no)
+        .collection("history")
+        .doc()
+        .set({
+      'date': "",
+      'orderid': "xxxxxxxx",
+      'status': false,
+      'totalPayment': (p_price - 0.2 * p_price).toString()
+    });
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  void bottomPaymentSheet() {
+    p_price = 0;
+    for (int i = 0; i < checkoutList.length; i++) {
+      p_price = p_price + (checkoutList[i]['price'] * checkoutList[i]['qty']);
+    }
+    showAdaptiveActionSheet(
+      context: context,
+      title: Row(
+        children: [
+          SizedBox(
+            width: 10,
+          ),
+          const Text(
+            "Total Bill",
+            style: TextStyle(
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      androidBorderRadius: 30,
+      bottomSheetColor: Colors.white,
+      actions: [
+        BottomSheetAction(
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Product Price ",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 143, 142, 142),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        "Rs " + p_price.toString(),
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 21, 21, 21),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Discount Offer ",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 143, 142, 142),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        "- 20%",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 21, 21, 21),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Divider(
+                  color: Colors.teal.shade100,
+                  thickness: 1.0,
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Grand Total :",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 21, 21, 21),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Rs " + (p_price - 0.2 * p_price).toString(),
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 21, 21, 21),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                InkWell(
+                  onTap: () {
+                        checkAddresIsAlreadyAdded(context);
+
+                   
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 9,
+                          color: Color(0Xff69bcfc).withOpacity(0.5),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF82C6FB), Color(0XFF69BCFC)],
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Proceed to Payment",
+                          style: GoogleFonts.lato(
+                              color: Colors.white,
+                              fontSize: 21,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            onPressed: () {}),
+      ],
+    );
+  }
+}
+
+void checkAddresIsAlreadyAdded(BuildContext context) async {
+  var collection = FirebaseFirestore.instance.collection('users');
+  var docSnapshot = await collection.doc(phone_no).get();
+  if (docSnapshot.exists) {
+    Map<String, dynamic> data = docSnapshot.data()!;
+       if(data['postalcode'].toString().length>0){
+          _razorpay.open(options);
+       }else{
+         Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AddAddress()));
+       } // <-- The value you want to retrieve.
+    // Call setState if needed.
+  }
+}
+
+void getPhonenum() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  phone_no = prefs.getString('phone_number');
 }
 
 void addCheckOutItem(int index) {
-  if (!checkoutList.contains(productList[index]))
+  if (!productImgL.contains(productList[index]['img'])) {
     checkoutList.add(productList[index]);
+    productImgL.add(productList[index]['img']);
+  }
 }
 
 // getPhonenumber() async {

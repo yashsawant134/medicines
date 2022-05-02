@@ -6,6 +6,7 @@ import 'package:medicines/models/category_model.dart';
 import 'package:medicines/models/search_medicine.dart';
 import 'package:medicines/modules/search_medicines_layout.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:medicines/screens/UploadPrescription.dart';
 import 'package:medicines/screens/cart.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -113,21 +114,31 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 width: 7,
                               ),
-                              Flexible(
-                                flex: 0,
-                                child: Container(
-                                  width: 50,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFF69BCFC).withOpacity(0.9),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  child: Center(
-                                    child: new Image.asset(
-                                      "assets/png/filter.png",
-                                      height: 31,
-                                      width: 31,
+                              InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      UploadPrescription()));
+                                },
+                                child: Flexible(
+                                  flex: 0,
+                                  child: Container(
+                                    width: 50,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF69BCFC).withOpacity(0.9),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: Center(
+                                      child: new Image.asset(
+                                        "assets/png/upload.png",
+                                        height: 31,
+                                        width: 31,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),

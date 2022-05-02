@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medicines/screens/AddAddress.dart';
+import 'package:medicines/screens/MedicineIntakeScreen.dart';
+import 'package:medicines/screens/OrderHistory.dart';
 import 'package:medicines/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,214 +49,190 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(26.0),
                   child: Column(
                     children: [
-                      Text(
-                        "Rohit",
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 24,
-                        ),
-                      ),
+                      
                       SizedBox(
                         height: 40,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 90,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color(0xFFEFEEFA),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/png/editprofile.png",
-                                          color: Color(0xFF867CFD),
-                                          width: 34,
-                                          height: 34,
+                     
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MedicineIntakeScreen()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 90,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Color(0xFFFAECF3),
+                                        ),
+                                        child: Center(
+                                          child: Image.asset(
+                                            "assets/png/medicinecapsuel.png",
+                                            color: Color(0xFFFC99CA),
+                                            width: 34,
+                                            height: 34,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      "Edit Profile",
-                                      style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 21,
+                                      SizedBox(
+                                        width: 30,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Icon(Icons.arrow_forward_ios_rounded),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
-                          ],
+                                      Text(
+                                        "My Medicines",
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 21,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Icon(Icons.arrow_forward_ios_rounded),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 90,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color(0xFFFAECF3),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/png/medicinecapsuel.png",
-                                          color: Color(0xFFFC99CA),
-                                          width: 34,
-                                          height: 34,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderHistory()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 90,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Color(0xFFFAECEC),
+                                        ),
+                                        child: Center(
+                                          child: Image.asset(
+                                            "assets/png/history.png",
+                                            color: Color.fromARGB(123, 251, 76, 76),
+                                            width: 34,
+                                            height: 34,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      "My Medicines",
-                                      style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 21,
+                                      SizedBox(
+                                        width: 30,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Icon(Icons.arrow_forward_ios_rounded),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
-                          ],
+                                      Text(
+                                        "Order History",
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 21,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Icon(Icons.arrow_forward_ios_rounded),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 90,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color(0xFFFAECEC),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/png/history.png",
-                                          color: Color(0xFFFB4C4C),
-                                          width: 34,
-                                          height: 34,
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AddAddress()));
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 90,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(15),
+                                          color: Color(0xFFF3ECFA),
+                                        ),
+                                        child: Center(
+                                          child: Image.asset(
+                                            "assets/png/address.png",
+                                            color: Color(0xFFCDA6F3),
+                                            width: 34,
+                                            height: 34,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      "Order History",
-                                      style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 21,
+                                      SizedBox(
+                                        width: 30,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Icon(Icons.arrow_forward_ios_rounded),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 90,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color(0xFFF3ECFA),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/png/address.png",
-                                          color: Color(0xFFCDA6F3),
-                                          width: 34,
-                                          height: 34,
+                                      Text(
+                                        "Address",
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 21,
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      "Address",
-                                      style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 21,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Icon(Icons.arrow_forward_ios_rounded),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
-                          ],
+                                    ],
+                                  ),
+                                  Icon(Icons.arrow_forward_ios_rounded),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       InkWell(
@@ -282,7 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         child: Center(
                                           child: Image.asset(
                                             "assets/png/logout.png",
-                                            color: Color(0xFF7366FE),
+                                            color: Color.fromARGB(153, 115, 102, 254),
                                             width: 34,
                                             height: 34,
                                           ),
@@ -343,21 +322,26 @@ void showCustomDialog(BuildContext context) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(Icons.power_settings_new_rounded,size: 70,color: Colors.red[300],),
-                SizedBox(height: 20,),
-                
-                 DefaultTextStyle(
-                    style: TextStyle(
-                       fontWeight: FontWeight.w500,
-                       fontSize: 20,
-                       color: Colors.black.withOpacity(0.8)
-                     ),
-                   child: Text(
-                     "Are you sure you want to logout",
-                    
-                   ),
-                 ),
-                SizedBox(height: 20,),
+                Icon(
+                  Icons.power_settings_new_rounded,
+                  size: 70,
+                  color: Colors.red[300],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                DefaultTextStyle(
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: Colors.black.withOpacity(0.8)),
+                  child: Text(
+                    "Are you sure you want to logout",
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   height: 60,
                   decoration: BoxDecoration(
@@ -367,11 +351,16 @@ void showCustomDialog(BuildContext context) {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           FirebaseAuth.instance.signOut();
-                           removeSharedpreference();
-                           Navigator.of(context).popUntil((route) => route.isFirst);
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
+                          removeSharedpreference();
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LoginScreen()));
                         },
                         child: Container(
                           height: 60,
@@ -383,21 +372,19 @@ void showCustomDialog(BuildContext context) {
                               )),
                           child: Center(
                             child: DefaultTextStyle(
-                               style: TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 24,
-                                  color: Colors.white
-                                ),
+                                  color: Colors.white),
                               child: Text(
                                 "Yes",
-                               
                               ),
                             ),
                           ),
                         ),
                       ),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -408,16 +395,14 @@ void showCustomDialog(BuildContext context) {
                               borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(40),
                               )),
-                              child: Center(
+                          child: Center(
                             child: DefaultTextStyle(
-                               style: TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 24,
-                                  color: Colors.black.withOpacity(0.5)
-                                ),
+                                  color: Colors.black.withOpacity(0.5)),
                               child: Text(
                                 "No",
-                               
                               ),
                             ),
                           ),
@@ -451,8 +436,7 @@ void showCustomDialog(BuildContext context) {
   );
 }
 
-
-removeSharedpreference() async{
+removeSharedpreference() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove("phone_number");
 }

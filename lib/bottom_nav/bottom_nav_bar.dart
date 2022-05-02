@@ -26,6 +26,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   
   @override
   Widget build(BuildContext context) {
+                     getPhonenumber();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
