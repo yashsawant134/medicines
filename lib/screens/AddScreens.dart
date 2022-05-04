@@ -165,7 +165,7 @@ class _AddScreensState extends State<AddScreens> {
                   Row(
                     children: [
                       Container(
-                          width: MediaQuery.of(context).size.width / 1.3,
+                          width: MediaQuery.of(context).size.width / 1.32,
                           height: 60,
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey),
@@ -393,8 +393,8 @@ class _searchProductDropDownState extends State<searchProductDropDown> {
                       SizedBox(
                         width: 20,
                       ),
-                      Text(value['Name'].toString().length > 33
-                          ? value['Name'].toString().substring(0, 33)
+                      Text(value['Name'].toString().length > 20
+                          ? value['Name'].toString().substring(0, 20)
                           : value['Name'].toString()),
                     ],
                   ),

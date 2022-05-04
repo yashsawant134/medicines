@@ -102,7 +102,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             ),
                                           ),
                                           Text(
-                                            "25-04-2022",
+                                            "05-05-2022",
                                             style: TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 132, 130, 130),
@@ -140,7 +140,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             ],
                                           ),
                                           SizedBox(
-                                            width: 25,
+                                            width: 15,
                                           ),
                                           Column(
                                             crossAxisAlignment:
@@ -167,7 +167,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             ],
                                           ),
                                           SizedBox(
-                                            width: 25,
+                                            width: 13,
                                           ),
                                           Column(
                                             crossAxisAlignment:

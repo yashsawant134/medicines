@@ -73,7 +73,6 @@ class _AddAddressState extends State<AddAddress> {
                 return SingleChildScrollView(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16.0, left: 16),
                       child: Column(

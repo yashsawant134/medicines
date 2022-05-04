@@ -98,7 +98,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            favList[index]['p_name'],
+                                            favList[index]['p_name'].length>15?favList[index]['p_name'].toString().substring(0,15):favList[index]['p_name'],
                                             style: GoogleFonts.lato(
                                                 fontSize: 20,
                                                 color: Colors.black,
@@ -108,7 +108,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                             height: 7,
                                           ),
                                           Text(
-                                            favList[index]['company_name'],
+                                            favList[index]['company_name'].length>15?favList[index]['company_name'].toString().substring(0,15):favList[index]['company_name'],
                                             style: GoogleFonts.lato(
                                               fontSize: 18,
                                               color: Colors.grey,
@@ -132,7 +132,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 110,
+                                                width: 80,
                                               ),
                                               ClipOval(
                                                   child: Material(

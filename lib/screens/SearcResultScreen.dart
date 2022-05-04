@@ -190,8 +190,8 @@ class _SearchMedicineLayouState extends State<SearchMedicineLayou> {
                     Row(
                       children: [
                         Text(
-                          medsList[widget.index]['Name'].length > 9
-                              ? medsList[widget.index]['Name'].substring(0, 7) +
+                          medsList[widget.index]['Name'].length > 6
+                              ? medsList[widget.index]['Name'].substring(0, 6) +
                                   "..."
                               : medsList[widget.index]['Name'],
                           style: GoogleFonts.lato(
@@ -213,8 +213,8 @@ class _SearchMedicineLayouState extends State<SearchMedicineLayou> {
                     Row(
                       children: [
                         Text(
-                          medsList[widget.index]['For'].length > 16
-                              ? medsList[widget.index]['For'].substring(0, 16) +
+                          medsList[widget.index]['For'].length > 14
+                              ? medsList[widget.index]['For'].substring(0, 14) +
                                   "..."
                               : medsList[widget.index]['For'],
                           style: GoogleFonts.lato(
@@ -240,9 +240,9 @@ class _SearchMedicineLayouState extends State<SearchMedicineLayou> {
                     Row(
                       children: [
                         Text(
-                          medsList[widget.index]['Company_name'].length > 13
+                          medsList[widget.index]['Company_name'].length > 10
                               ? medsList[widget.index]['Company_name']
-                                      .substring(0, 13) +
+                                      .substring(0, 10) +
                                   "..."
                               : medsList[widget.index]['Company_name'],
                           style: GoogleFonts.lato(

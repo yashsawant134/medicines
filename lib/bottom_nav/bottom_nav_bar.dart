@@ -58,10 +58,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20, top: 15),
-          child: Image.asset(
-            "assets/png/sidebar_menu.png",
-            width: 28,
-            height: 28,
+          child: InkWell(
+            onTap: (){
+                  setState(() {
+                    pageIndex=3;
+                  });
+            },
+            child: Image.asset(
+              "assets/png/sidebar_menu.png",
+              width: 28,
+              height: 28,
+            ),
           ),
         ),
       ),

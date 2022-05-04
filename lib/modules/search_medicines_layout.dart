@@ -66,7 +66,7 @@ class _SearchMedicineLayoutState extends State<SearchMedicineLayout> {
                     Row(
                       children: [
                         Text(
-                          newList[widget.index]['Name'].length>9?newList[widget.index]['Name'].substring(0,7)+"...":newList[widget.index]['Name'],
+                          newList[widget.index]['Name'].length>7?newList[widget.index]['Name'].substring(0,6)+"...":newList[widget.index]['Name'],
                           style: GoogleFonts.lato(
                               fontWeight: FontWeight.w400, fontSize: 19),
                         ),
@@ -86,7 +86,7 @@ class _SearchMedicineLayoutState extends State<SearchMedicineLayout> {
                     Row(
                       children: [
                         Text(
-                          newList[widget.index]['For'].length>16?newList[widget.index]['For'].substring(0,16)+"...":newList[widget.index]['For'],
+                          newList[widget.index]['For'].length>14?newList[widget.index]['For'].substring(0,14)+"...":newList[widget.index]['For'],
                           style: GoogleFonts.lato(
                               color: Colors.grey[600], fontSize: 15),
                         ),
@@ -110,7 +110,7 @@ class _SearchMedicineLayoutState extends State<SearchMedicineLayout> {
                     Row(
                       children: [
                         Text(
-                         newList[widget.index]['Company_name'].length>13?newList[widget.index]['Company_name'].substring(0,13)+"...":newList[widget.index]['Company_name'],
+                         newList[widget.index]['Company_name'].length>10?newList[widget.index]['Company_name'].substring(0,10)+"...":newList[widget.index]['Company_name'],
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF82C6FB),

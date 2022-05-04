@@ -226,10 +226,10 @@ class _AddToCartState extends State<AddToCart> {
                                                               Text(
                                                                 productList[index]['for']
                                                                             .length >
-                                                                        29
+                                                                        24
                                                                     ? productList[index]['for'].substring(
                                                                             0,
-                                                                            26) +
+                                                                            21) +
                                                                         "..."
                                                                     : productList[
                                                                             index]

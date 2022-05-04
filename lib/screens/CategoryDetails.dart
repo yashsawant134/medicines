@@ -170,8 +170,8 @@ class _CategoryDetailViewState extends State<CategoryDetailView> {
                     Row(
                       children: [
                         Text(
-                          medList[widget.index]['Name'].length > 9
-                              ? medList[widget.index]['Name'].substring(0, 7) +
+                          medList[widget.index]['Name'].length > 7
+                              ? medList[widget.index]['Name'].substring(0, 6) +
                                   "..."
                               : medList[widget.index]['Name'],
                           style: GoogleFonts.lato(
@@ -193,8 +193,8 @@ class _CategoryDetailViewState extends State<CategoryDetailView> {
                     Row(
                       children: [
                         Text(
-                          medList[widget.index]['For'].length > 16
-                              ? medList[widget.index]['For'].substring(0, 16) +
+                          medList[widget.index]['For'].length > 14
+                              ? medList[widget.index]['For'].substring(0, 14) +
                                   "..."
                               : medList[widget.index]['For'],
                           style: GoogleFonts.lato(
@@ -220,9 +220,9 @@ class _CategoryDetailViewState extends State<CategoryDetailView> {
                     Row(
                       children: [
                         Text(
-                          medList[widget.index]['Company_name'].length > 13
+                          medList[widget.index]['Company_name'].length > 10
                               ? medList[widget.index]['Company_name']
-                                      .substring(0, 13) +
+                                      .substring(0, 10) +
                                   "..."
                               : medList[widget.index]['Company_name'],
                           style: GoogleFonts.lato(

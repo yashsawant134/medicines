@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   radius: 68,
                   child: ClipOval(
                     child: Image.network(
-                      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                      "https://firebasestorage.googleapis.com/v0/b/medicine-67002.appspot.com/o/WhatsApp%20Image%202022-05-04%20at%208.19.28%20PM.jpeg?alt=media&token=d68d38d0-2234-46ab-be14-ec79664f503e",
                       width: 135,
                       height: 135,
                       fit: BoxFit.cover,
@@ -389,7 +389,7 @@ void showCustomDialog(BuildContext context) {
                         },
                         child: Container(
                           height: 60,
-                          width: MediaQuery.of(context).size.width / 2.28,
+                          width: MediaQuery.of(context).size.width / 2.33,
                           decoration: BoxDecoration(
                               color: Color.fromARGB(255, 195, 195, 195),
                               borderRadius: BorderRadius.only(

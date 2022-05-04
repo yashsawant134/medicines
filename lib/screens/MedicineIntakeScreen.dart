@@ -66,15 +66,6 @@ void initState() {
   Widget build(BuildContext context) {
      curminINT=(int.parse(curmin.substring(0,2))*60) + int.parse(curmin.substring(3,5));
 
-    Fluttertoast.showToast(
-                                  msg: curminINT.toString(),
-                                  toastLength: Toast.LENGTH_LONG,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Color(0Xff69bcfc),
-                                  textColor: Colors.white,
-                                  fontSize: 16.0,
-                                );
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,

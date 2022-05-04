@@ -85,7 +85,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                   Row(
                     children: [
                       Text(
-                        "Note : Always upload a clear version of\nyour prescription for getting better result",style: TextStyle(fontSize: 19,fontWeight: FontWeight.w400,color: Colors.black),
+                        "Note : Always upload a clear version of\nyour prescription for getting better result",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,color: Colors.black),
                       )
                     ],
                   ),
