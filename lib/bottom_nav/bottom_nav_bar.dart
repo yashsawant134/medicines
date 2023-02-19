@@ -13,6 +13,7 @@ class BottomNavBar extends StatefulWidget {
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
+//Git Phone number
 String phone ="";
 class _BottomNavBarState extends State<BottomNavBar> {
   int pageIndex = 0;
