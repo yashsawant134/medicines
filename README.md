@@ -1,6 +1,6 @@
 # medicines
 
-A new Flutter project by yash sawant.
+A new Flutter project by.
 
 ## Getting Started
 
